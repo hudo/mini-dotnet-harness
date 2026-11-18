@@ -1,8 +1,8 @@
 # mini-dotnet-harness
 
-A C# / .NET 10 port of `mini`, a small Python coding-agent harness. The harness runs an Anthropic (or compatible) model in a loop. It lets the model call tools (files, shell, MCP, sub-agents) and asks for approval before risky actions. It also keeps an append-only session transcript.
+A C# / .NET 10 port of [`mini-harness`](https://github.com/phuryn/mini-harness), a small Python coding-agent harness. The harness runs an Anthropic (or compatible) model in a loop. It lets the model call tools (files, shell, MCP, sub-agents) and asks for approval before risky actions. It also keeps an append-only session transcript.
 
-- `src-original/` is the **Python reference** (`cli.py`, `loop.py`, `tools.py`, `session.py`, …).
+- `src-original/` is the **Python reference** (`cli.py`, `loop.py`, `tools.py`, `session.py`, …), taken from [phuryn/mini-harness](https://github.com/phuryn/mini-harness).
 - `src/` is the **C# port**.
 
 ## How it is ported
