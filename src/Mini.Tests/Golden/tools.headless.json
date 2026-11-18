@@ -1,0 +1,176 @@
+[
+  {
+    "name": "read",
+    "description": "Read a text file or an image (PNG, JPEG, GIF or WebP, up to 3000 px on a side: you see the picture), or list a directory. Paths are relative to the working directory. Output lines start with a line number and a tab; that prefix is not part of the file. Long files come in pages of about 30,000 characters; the last line says which offset to pass next. Reading outside the working directory, or a file that may hold secrets (.env, keys, credentials), goes through approval (see the system prompt); don't read secrets unless the task needs them.",
+    "strict": true,
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "offset": {
+          "type": "integer",
+          "description": "First line to show, 1-based (default 1)"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Lines to show (default 2000)"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "write",
+    "description": "Create a file, or replace a whole file. To overwrite an existing file, read it first; for small changes use edit. Writing outside the working directory, into dot-folders, or to files that run later (Makefile, conftest.py, mcp.json, executables) goes through approval.",
+    "strict": true,
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "content"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "edit",
+    "description": "Replace exact text in a file you have read since it last changed. `old` must match the file character for character, including indentation, and must not include the line-number prefixes that read shows. It must occur once, unless replace_all is true; add surrounding lines to make it unique.",
+    "strict": true,
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "old": {
+          "type": "string"
+        },
+        "new": {
+          "type": "string"
+        },
+        "replace_all": {
+          "type": "boolean",
+          "description": "Replace every occurrence (default false)"
+        }
+      },
+      "required": [
+        "path",
+        "old",
+        "new"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "bash",
+    "description": "Run a shell command in the working directory and get its output (stdout and stderr together) and the exit code. Use it for git, tests and builds; search files with the find tool instead. There is no terminal: commands get no input, so interactive programs end at once. Output over 30,000 characters is cut in the middle. A command still running at the timeout isn't killed: it goes on in the background until it ends or mini exits, and you get its pid, the log file where its output continues, and its output so far. For servers, long builds and other long jobs, set background: the command starts detached, writes to a log file, and the call returns at once with the pid and the log's path. Output piped into tail, grep or less appears only when the command ends, so to watch a long one, send its output to a file and read that. Commands other than plain reads (ls, cat or head of project files, read-only git; no pipes or redirects) go through approval.",
+    "strict": true,
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "integer",
+          "description": "Seconds before it goes on in the background (default 120)"
+        },
+        "background": {
+          "type": "boolean",
+          "description": "Start it detached and return at once (default false). It runs detached already, so don't add & or nohup"
+        }
+      },
+      "required": [
+        "command"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "find",
+    "description": "Find files by name, or lines by content (path:line: text), in a folder or one file. Read-only; searching outside the working directory goes through approval. Paths come back relative to the working directory. Skips dot-folders, node_modules and __pycache__, symlinked folders, and the contents of files that may hold secrets. Stops at 500 results or 30 seconds.",
+    "strict": true,
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Glob matched against file names only (no /), such as *.py; default *"
+        },
+        "contains": {
+          "type": "string",
+          "description": ".NET regex to match lines; omit to list files"
+        },
+        "path": {
+          "type": "string",
+          "description": "Folder or file to search (default the working directory)"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "task",
+    "description": "Delegate a self-contained research or reading task to a subagent. It starts with an empty context: it can't see this conversation, so the prompt must include every path, fact and constraint it needs. It has read, find, bash and web_search, is told not to change files (its bash calls need approval like yours), and returns only its final answer.",
+    "strict": true,
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string",
+          "enum": [
+            "claude-sonnet-5-5",
+            "claude-haiku-5-5"
+          ],
+          "description": "Default claude-sonnet-5-5; claude-haiku-5-5 for plain reading or search"
+        }
+      },
+      "required": [
+        "prompt"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "goal_done",
+    "description": "Declare the active goal complete. Only for a goal the user set with /goal: without one, don't call it. Only call it when the goal is fully met and you have checked it. The harness then runs the user's verify command, if any, and has a reviewer that can't see this conversation check the work; you get their objections if they disagree.",
+    "strict": true,
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "evidence": {
+          "type": "string",
+          "description": "What you ran and what it showed"
+        }
+      },
+      "required": [
+        "evidence"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "type": "web_search_20260209",
+    "name": "web_search",
+    "allowed_callers": [
+      "direct"
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="Mini.Core/Mini.Core.csproj" />
+    <Project Path="Mini.Cli/Mini.Cli.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="Mini.Tests/Mini.Tests.csproj" />
+  </Folder>
+</Solution>

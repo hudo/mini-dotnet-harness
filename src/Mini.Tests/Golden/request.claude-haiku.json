@@ -1,0 +1,29 @@
+{
+  "model": "claude-haiku-5-5",
+  "max_tokens": 128000,
+  "system": "<system: see system-prompt.*.txt>",
+  "tools": "<tools: see tools.*.json>",
+  "messages": [
+    {
+      "role": "user",
+      "content": "hi"
+    }
+  ],
+  "cache_control": {
+    "type": "ephemeral"
+  },
+  "thinking": {
+    "type": "adaptive",
+    "display": "summarized",
+    "block_binding": {
+      "prefix_mismatch_behavior": "drop_block"
+    }
+  },
+  "output_config": {
+    "effort": "high"
+  },
+  "betas": [
+    "compact-2026-09-04",
+    "thinking-binding-controls-2026-08-01"
+  ]
+}

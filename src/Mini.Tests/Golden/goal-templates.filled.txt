@@ -1,0 +1,23 @@
+Goal mode is on. Objective: ship it
+The harness will keep asking you to continue until you call goal_done. Call goal_done only when the objective is fully met and you have checked it, and put the evidence (commands run, results) in the call. If you cannot make progress without the user, end your message with a line that starts with BLOCKED: and the question.
+=====
+Goal mode is on. Objective: ship it
+The harness will keep asking you to continue until you call goal_done. Call goal_done only when the objective is fully met and you have checked it, and put the evidence (commands run, results) in the call. After you call it, the harness runs `make test` and only accepts the goal if it passes. If you cannot make progress without the user, end your message with a line that starts with BLOCKED: and the question.
+=====
+An agent says it met the goal below. Check whether it really did, in the working directory: read the files and run read-only checks. Don't take its word for anything.
+
+Goal: ship it
+
+Its evidence: ran make test: ok
+
+Say NOT DONE only for a concrete gap you found, not for something you couldn't check; name what you couldn't check. End with a last line that is exactly VERDICT: DONE or VERDICT: NOT DONE.
+=====
+An agent says it met the goal below. Check whether it really did, in the working directory: read the files and run read-only checks. Don't take its word for anything. The harness already ran `make test` and it passed.
+
+Goal: ship it
+
+Its evidence: ran make test: ok
+
+Say NOT DONE only for a concrete gap you found, not for something you couldn't check; name what you couldn't check. End with a last line that is exactly VERDICT: DONE or VERDICT: NOT DONE.
+=====
+Goal mode is off (status: done). Earlier goal instructions no longer apply unless the user resumes the goal.

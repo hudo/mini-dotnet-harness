@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Mini.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/Mini.Cli/Mini.Cli.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="Mini.Cli.Commands" />
+    <Using Include="Mini.Cli.Hosting" />
+    <Using Include="Mini.Cli.Terminal" />
+    <Using Include="Mini.Core.Agents" />
+    <Using Include="Mini.Core.Agents.Compaction" />
+    <Using Include="Mini.Core.Agents.Goals" />
+    <Using Include="Mini.Core.Agents.Costs" />
+    <Using Include="Mini.Core.Approval" />
+    <Using Include="Mini.Core.Common" />
+    <Using Include="Mini.Core.Configuration" />
+    <Using Include="Mini.Core.Conversation" />
+    <Using Include="Mini.Core.Interaction" />
+    <Using Include="Mini.Core.Models" />
+    <Using Include="Mini.Core.Prompts" />
+    <Using Include="Mini.Core.Security" />
+    <Using Include="Mini.Core.Sessions" />
+    <Using Include="Mini.Core.Tools" />
+    <Using Include="Mini.Core.Tools.Agentic" />
+    <Using Include="Mini.Core.Tools.Files" />
+    <Using Include="Mini.Core.Tools.Mcp" />
+    <Using Include="Mini.Core.Tools.Shell" />
+  </ItemGroup>
+
+</Project>

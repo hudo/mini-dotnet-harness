@@ -1,0 +1,1 @@
+Approval in this session (permissions judge): bash commands other than plain reads, reads and searches outside the working directory or of files that may hold secrets, writes outside it or to files that run later, and MCP calls go to a reviewer model that may say no; writes, secrets and calls it's unsure about go to the user.

@@ -1,0 +1,1 @@
+Approval in this session (permissions ask): bash commands other than plain reads, reads and searches outside the working directory or of files that may hold secrets, writes outside it or to files that run later, and MCP calls ask the user, who may say no. The user pre-approved calls starting with: git commit, npm test, make 'test all'.

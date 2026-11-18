@@ -1,0 +1,54 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{cs,csx}]
+indent_style = space
+indent_size = 4
+
+# Style rules are errors; EnforceCodeStyleInBuild (Directory.Build.props) applies them at build time.
+csharp_style_namespace_declarations = file_scoped:error
+csharp_style_var_for_built_in_types = true:error
+csharp_style_var_when_type_is_apparent = true:error
+csharp_style_var_elsewhere = true:error
+csharp_style_expression_bodied_methods = when_on_single_line:error
+csharp_style_expression_bodied_properties = true:error
+csharp_prefer_braces = when_multiline:error
+dotnet_style_qualification_for_field = false:error
+dotnet_style_readonly_field = true:error
+dotnet_sort_system_directives_first = true
+
+# Private fields: _camelCase
+dotnet_naming_rule.private_fields_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_underscore.style = underscore_camel
+dotnet_naming_rule.private_fields_underscore.severity = error
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.underscore_camel.required_prefix = _
+dotnet_naming_style.underscore_camel.capitalization = camel_case
+
+# Analyzer rules that do not fit this program (AnalysisMode=Recommended in Mini.Core).
+# CA1716: keyword clashes only matter to Visual Basic callers; nothing but C# calls this code (Resume, call and error are the natural names).
+dotnet_diagnostic.CA1716.severity = none
+# CA1822: services and context objects (ReplContext.Out, ContextReport, JobRegistry) are instance members on purpose: they are the seams tests and DI use.
+dotnet_diagnostic.CA1822.severity = none
+# CA1720: Int and Bool name the argument kinds of ToolArgs, which mirror the JSON schema types of the tool definitions.
+dotnet_diagnostic.CA1720.severity = none
+
+[*.{csproj,props,targets,slnx,json}]
+indent_size = 2
+indent_style = space
+
+# Golden files are compared byte for byte: never touch their whitespace.
+[tests/Mini.Tests/Golden/**]
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+
+# CS1591 (missing XML comment on a public member): Mini.Core has 251 of them, mostly record parameters and interface members whose name says it all.
+# The generated doc file still carries every summary that exists; upgrade by documenting the members and removing this line.
+[src/Mini.Core/**.cs]
+dotnet_diagnostic.CS1591.severity = none

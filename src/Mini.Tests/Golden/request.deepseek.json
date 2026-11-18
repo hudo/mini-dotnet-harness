@@ -1,0 +1,18 @@
+{
+  "model": "deepseek-flash",
+  "max_tokens": 64000,
+  "system": "<system: see system-prompt.*.txt>",
+  "tools": "<tools: see tools.*.json>",
+  "messages": [
+    {
+      "role": "user",
+      "content": "hi"
+    }
+  ],
+  "cache_control": {
+    "type": "ephemeral"
+  },
+  "output_config": {
+    "effort": "high"
+  }
+}

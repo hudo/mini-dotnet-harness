@@ -1,0 +1,12 @@
+# Python names (src/mini) that have no C# counterpart, with the reason.
+# One line per name: <file>.py <Name> — <reason>      (the dash is an em dash; lines starting with # are comments)
+# PythonReferenceTests fails if a name here is missing from Python, or is tagged in C# (then remove the line), and if a
+# Python name is neither tagged nor listed here.
+#
+# Names that are only partly ported stay tagged, with the gap in the tag's note, and do not belong here:
+#   tools.py stop, reap, stop_running, still_running (simple process mode: no setsid, no killpg; MIGRATION-PLAN "Accepted gaps")
+#   cli.py main (SIGHUP is taken over even under nohup; no argparse prefix abbreviations)
+# Not names, so not listed: the `if __name__ == "__main__"` guard of cli.py, __main__.py (Program.cs is its C# twin),
+# __init__.py (empty), and functions nested in functions (reap's wait, main's new).
+
+tools.py group_running — accepted gap (P5 in MIGRATION-PLAN's 1.0.5 table): simple process mode has no per-job process groups, so a group probe would see mini's own group; port it with setsid via P/Invoke
