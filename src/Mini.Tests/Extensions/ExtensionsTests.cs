@@ -25,6 +25,7 @@ public class ExtensionsTests
     [Fact]
     public async Task McpStdioServerRoundTrip()
     {
+        Assert.SkipUnless(File.Exists(ExtensionsHelpers.EchoServerPath), "tests/echo_server.py (from the Python repo) is not in this checkout");
         using var ws = new Workspace();
         var (command, args) = ExtensionsHelpers.EchoServer();
         ws.Write("mcp.json", Json.Obj(("mcpServers", Json.Obj(("echo", Json.Obj(("command", command),

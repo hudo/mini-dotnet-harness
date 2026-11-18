@@ -21,11 +21,11 @@ namespace Mini.Tests;
 /// </summary>
 public sealed partial class PythonReferenceTests
 {
-    // dotnet/tests/Mini.Tests/PythonReferenceTests.cs -> the repository root, three folders up from this file's folder.
-    static readonly string Repo = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(ThisFile())!, "..", "..", ".."));
-    static readonly string PythonDir = Path.Combine(Repo, "src", "mini");
-    static readonly string CsDir = Path.Combine(Repo, "dotnet", "src");
-    static readonly string NotPortedFile = Path.Combine(Repo, "dotnet", "docs", "python-not-ported.txt");
+    // src/Mini.Tests/PythonReferenceTests.cs -> the repository root, two folders up from this file's folder.
+    static readonly string Repo = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(ThisFile())!, "..", ".."));
+    static readonly string PythonDir = Path.Combine(Repo, "src-original");
+    static readonly string CsDir = Path.Combine(Repo, "src");
+    static readonly string NotPortedFile = Path.Combine(Repo, "src", "docs", "python-not-ported.txt");
 
     static string ThisFile([CallerFilePath] string path = "") => path;
 
@@ -112,7 +112,7 @@ public sealed partial class PythonReferenceTests
 
     static IEnumerable<string> CsFiles() =>
         Directory.EnumerateFiles(CsDir, "*.cs", SearchOption.AllDirectories)
-            .Where(p => !p.Split(Path.DirectorySeparatorChar).Any(s => s is "obj" or "bin"))
+            .Where(p => !p.Split(Path.DirectorySeparatorChar).Any(s => s is "obj" or "bin" or "Mini.Tests"))
             .Order(StringComparer.Ordinal);
 
     static string Rel(string path) => Path.GetRelativePath(Repo, path).Replace(Path.DirectorySeparatorChar, '/');
@@ -176,7 +176,7 @@ public sealed partial class PythonReferenceTests
             }
             else if (!python.TryGetValue(tag.File, out var file))
             {
-                bad.Add($"{tag.Where}: src/mini/{tag.File} does not exist");
+                bad.Add($"{tag.Where}: src-original/{tag.File} does not exist");
             }
             else if (!file.Defined.Contains(Base(tag.Name)))
             {
@@ -194,7 +194,7 @@ public sealed partial class PythonReferenceTests
         var missing = ReadPython().SelectMany(f => f.Value.Required.Select(n => $"{f.Key} {n}"))
             .Where(n => !tagged.Contains(n) && !listed.Contains(n)).Order(StringComparer.Ordinal).ToList();
         Assert.True(missing.Count == 0,
-            $"{missing.Count} Python name(s) are neither tagged in dotnet/src nor listed in dotnet/docs/python-not-ported.txt "
+            $"{missing.Count} Python name(s) are neither tagged in src nor listed in src/docs/python-not-ported.txt "
             + "(a new function in Python? tag its C# port with \"// Python: <file> <Name>\", or list it with a reason):\n"
             + string.Join("\n", missing));
     }
@@ -207,7 +207,7 @@ public sealed partial class PythonReferenceTests
         List<string> bad = [];
         foreach (var (file, name, line, number) in ReadNotPorted())
         {
-            var where = $"dotnet/docs/python-not-ported.txt:{number}";
+            var where = $"src/docs/python-not-ported.txt:{number}";
             if (file.Length == 0) bad.Add($"{where}: not \"<file>.py <Name> — <reason>\": {line}");
             else if (!python.TryGetValue(file, out var f) || !f.Defined.Contains(name)) bad.Add($"{where}: {file} defines no {name} any more, remove the line");
             else if (tagged.Contains($"{file} {name}")) bad.Add($"{where}: {file} {name} is tagged in C# now, remove the line");

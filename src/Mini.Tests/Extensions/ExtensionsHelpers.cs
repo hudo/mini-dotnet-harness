@@ -6,7 +6,7 @@ namespace Mini.Tests.Extensions;
 static class ExtensionsHelpers
 {
     static string RepoRoot([CallerFilePath] string here = "") =>
-        System.IO.Path.GetFullPath(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(here)!, "..", "..", "..", ".."));
+        System.IO.Path.GetFullPath(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(here)!, "..", "..", ".."));
 
     /// <summary>tests/echo_server.py at the repo root: the one-tool MCP server the Python tests use.</summary>
     public static string EchoServerPath => System.IO.Path.Combine(RepoRoot(), "tests", "echo_server.py");

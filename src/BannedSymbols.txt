@@ -1,0 +1,11 @@
+M:System.Environment.GetEnvironmentVariable(System.String);Read the environment only in MiniOptionsBinder (inject MiniOptions)
+M:System.Environment.GetEnvironmentVariable(System.String,System.EnvironmentVariableTarget);Read the environment only in MiniOptionsBinder (inject MiniOptions)
+M:System.Environment.GetEnvironmentVariables;Read the environment only in MiniOptionsBinder (inject MiniOptions)
+M:System.Environment.GetEnvironmentVariables(System.EnvironmentVariableTarget);Read the environment only in MiniOptionsBinder (inject MiniOptions)
+M:System.Environment.GetFolderPath(System.Environment.SpecialFolder);Read the environment only in MiniOptionsBinder (inject MiniOptions)
+M:System.Environment.GetFolderPath(System.Environment.SpecialFolder,System.Environment.SpecialFolderOption);Read the environment only in MiniOptionsBinder (inject MiniOptions)
+P:System.DateTime.Now;Use the injected TimeProvider
+P:System.DateTime.UtcNow;Use the injected TimeProvider
+P:System.DateTime.Today;Use the injected TimeProvider
+P:System.DateTimeOffset.Now;Use the injected TimeProvider
+P:System.DateTimeOffset.UtcNow;Use the injected TimeProvider

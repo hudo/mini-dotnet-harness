@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/Mini.Cli/Mini.Cli.csproj" />
+    <ProjectReference Include="../Mini.Cli/Mini.Cli.csproj" />
   </ItemGroup>
 
   <ItemGroup>

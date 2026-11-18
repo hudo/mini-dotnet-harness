@@ -44,11 +44,11 @@ indent_size = 2
 indent_style = space
 
 # Golden files are compared byte for byte: never touch their whitespace.
-[tests/Mini.Tests/Golden/**]
+[Mini.Tests/Golden/**]
 insert_final_newline = unset
 trim_trailing_whitespace = unset
 
 # CS1591 (missing XML comment on a public member): Mini.Core has 251 of them, mostly record parameters and interface members whose name says it all.
 # The generated doc file still carries every summary that exists; upgrade by documenting the members and removing this line.
-[src/Mini.Core/**.cs]
+[Mini.Core/**.cs]
 dotnet_diagnostic.CS1591.severity = none
