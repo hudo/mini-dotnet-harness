@@ -1,0 +1,68 @@
+flowchart TB
+    User([User / terminal])
+
+    subgraph Cli["Mini.Cli — composition root + terminal"]
+        direction LR
+        Hosting["Hosting<br/>MiniApp, ConsoleCancellation,<br/>ProcessSignals"]
+        Commands["Commands<br/>RootCommandFactory, Repl,<br/>HeadlessRunner, slash commands"]
+        Terminal["Terminal<br/>ConsoleAgentOutput,<br/>ConsoleUserInteraction"]
+    end
+
+    subgraph Core["Mini.Core — all behavior, no console"]
+        direction TB
+        Agents["Agents<br/>Agent, AgentFactory, TurnRunner,<br/>SubagentRunner, Compaction, Costs, Goals"]
+
+        subgraph Row1[" "]
+            direction LR
+            Models["Models<br/>IModelClient, RetryingModelClient,<br/>AnthropicModelClient, profiles"]
+            Tools["Tools<br/>ToolRegistry, ToolExecutor,<br/>Files, Shell, Agentic, Mcp"]
+            Sessions["Sessions<br/>JSONL store, SessionReplayer,<br/>SessionCatalog"]
+        end
+
+        subgraph Row2[" "]
+            direction LR
+            Approval["Approval<br/>ApprovalPipeline +<br/>IApprovalStep chain"]
+            Security["Security<br/>PathResolver, WorkspacePolicy,<br/>SecretClassifier"]
+            Ports(["Ports<br/>IAgentOutput,<br/>IUserInteraction"])
+        end
+
+        subgraph Row3[" "]
+            direction LR
+            Conversation["Conversation<br/>Message, ContentBlock,<br/>Transcript"]
+            Prompts["Prompts<br/>HarnessPrompts,<br/>SystemPromptBuilder, SkillCatalog"]
+            Config["Configuration<br/>MiniOptions, ModelCatalog"]
+        end
+    end
+
+    subgraph Ext["External"]
+        direction LR
+        Anthropic["Anthropic API<br/>(or compatible)"]
+        McpServers["MCP servers<br/>(stdio)"]
+        FS[("Workspace files,<br/>shell, session files")]
+    end
+
+    User <--> Terminal
+    Hosting --> Commands
+    Commands --> Agents
+    Terminal -. implements .-> Ports
+
+    Agents --> Models
+    Agents --> Tools
+    Agents --> Sessions
+    Agents --> Ports
+    Agents --> Conversation
+    Agents --> Prompts
+    Config --> Models
+    Tools --> Approval
+    Approval --> Security
+    Approval --> Ports
+    Tools --> Security
+
+    Models --> Anthropic
+    Tools --> McpServers
+    Tools --> FS
+    Sessions --> FS
+
+    style Row1 fill:none,stroke:none
+    style Row2 fill:none,stroke:none
+    style Row3 fill:none,stroke:none

@@ -39,6 +39,14 @@ src/
   docs/         ARCHITECTURE, MIGRATION-PLAN, REFACTOR-PLAN, PYTHON-MAP
 ```
 
+## Components
+
+![Component diagram](docs/components.png)
+
+Source: [`docs/components.mmd`](docs/components.mmd) (Mermaid). Re-render with
+`npx -y @mermaid-js/mermaid-cli -i docs/components.mmd -o docs/components.png -b white -s 2`
+(also available as [SVG](docs/components.svg)).
+
 ## Build and test
 
 Requires the .NET 10 SDK.
